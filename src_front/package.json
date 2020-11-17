@@ -1,0 +1,37 @@
+{
+	"name": "create-umi-sokolova",
+	"version": "0.0.4",
+	"private": true,
+	"scripts": {
+		"name": "create-umi-sokolovska",
+		"version": "0.0.4",
+		"start": "umi dev",
+		"build": "umi build",
+		"postinstall": "umi generate tmp",
+		"test": "umi-test",
+		"test:coverage": "umi-test --coverage"
+	},
+	"dependencies": {
+		"@ant-design/pro-layout": "^5.0.12",
+		"@types/redux-logger": "^3.0.8",
+		"@typescript-eslint/eslint-plugin": "^4.0.1",
+		"@typescript-eslint/parser": "^4.0.1",
+		"@umijs/preset-react": "1.x",
+		"@umijs/test": "^3.2.19",
+		"babel-eslint": "^10.1.0",
+		"eslint": "^7.8.1",
+		"eslint-config-umi": "^1.6.0",
+		"eslint-plugin-flowtype": "^5.2.0",
+		"eslint-plugin-import": "^2.22.0",
+		"eslint-plugin-jsx-a11y": "^6.3.1",
+		"eslint-plugin-react": "^7.20.6",
+		"eslint-plugin-react-hooks": "^4.1.0",
+		"lint-staged": "^10.0.7",
+		"prettier": "^1.19.1",
+		"react": "^16.12.0",
+		"react-dom": "^16.12.0",
+		"typescript": "^4.0.2",
+		"umi": "^3.2.19",
+		"yorkie": "^2.0.0"
+	}
+}

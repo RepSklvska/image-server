@@ -1,0 +1,21 @@
+{
+	"extends": "eslint-config-umi",
+	"rules": {
+		"indent": [
+			"warn",
+			"tab"
+		],
+		"arrow-spacing": "warn",
+		"key-spacing": "warn",
+		"keyword-spacing": "warn",
+		"jsx-quotes": "warn",
+		"linebreak-style": "error",
+		"quotes": "warn",
+		"no-var": "warn",
+		"no-unexpected-multiline": "error",
+		"semi": "warn",
+		"semi-style": "warn",
+		"semi-spacing": "warn",
+		"block-spacing": "warn"
+	}
+}
