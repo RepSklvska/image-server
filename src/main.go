@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/gin-gonic/gin"
+	"image-server/src/response"
+	"image-server/src/server"
 	"image-server/src/utils"
-	"net/http"
 	"strconv"
 )
 
@@ -30,13 +30,7 @@ func main() {
 		return
 	}
 
-	_ = fileTree
-
-	r := gin.Default()
-	r.POST("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "response",
-		})
-	})
-	r.Run(strconv.Itoa(*p))
+	_ = server.Init(
+		response.HandlerWithFileTree(&fileTree),
+	).Run(":" + strconv.Itoa(*p))
 }
