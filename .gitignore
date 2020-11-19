@@ -13,6 +13,9 @@ coverage/
 dist/
 build/
 bin/
+htdocs/
+assets/
+bindata.go
 
 ### UMI生成文件
 .umi/
