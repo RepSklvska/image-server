@@ -1,11 +1,16 @@
 import React from "react";
-import styles from "./index.less";
+import Layout from "@/layouts/index"
+import {List} from "antd-mobile";
+import {IDirectoryState, useSelector} from 'umi'
 
 export default () => {
+	const directory: IDirectoryState = useSelector((state: any) => state.directory)
 	return (
-		<div>
-			<h1 className={styles.title}>Page index</h1>
-		</div>
+		<Layout>
+			<List>
+				<List.Item>A</List.Item>
+			</List>
+		</Layout>
 	);
 };
 
