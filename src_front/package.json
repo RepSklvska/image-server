@@ -1,23 +1,23 @@
 {
-	"name": "create-umi-sokolova",
+	"name": "image-server-frontend",
 	"version": "0.0.4",
 	"private": true,
 	"scripts": {
-		"name": "create-umi-sokolovska",
+		"name": "image-server-frontend",
 		"version": "0.0.4",
 		"start": "umi dev",
-		"build": "umi build",
+		"build": "umi build && cp dist/* ../src/htdocs -r",
 		"postinstall": "umi generate tmp",
 		"test": "umi-test",
 		"test:coverage": "umi-test --coverage"
 	},
 	"dependencies": {
-		"@ant-design/pro-layout": "^5.0.12",
 		"@types/redux-logger": "^3.0.8",
 		"@typescript-eslint/eslint-plugin": "^4.0.1",
 		"@typescript-eslint/parser": "^4.0.1",
 		"@umijs/preset-react": "1.x",
 		"@umijs/test": "^3.2.19",
+		"antd-mobile": "^2.3.4",
 		"babel-eslint": "^10.1.0",
 		"eslint": "^7.8.1",
 		"eslint-config-umi": "^1.6.0",
