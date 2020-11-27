@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
+	"image-server/src/file"
 	"image-server/src/response"
 	"image-server/src/server"
-	"image-server/src/utils"
 	"strconv"
 )
 
@@ -24,7 +24,7 @@ type File struct {
 func main() {
 	flag.Parse()
 
-	fileTree, err := utils.IndexDir(*d)
+	fileTree, err := file.IndexDir(*d)
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
@@ -32,5 +32,6 @@ func main() {
 
 	_ = server.Init(
 		response.HandlerWithFileTree(&fileTree),
+		//response.HandleRequest,
 	).Run(":" + strconv.Itoa(*p))
 }
