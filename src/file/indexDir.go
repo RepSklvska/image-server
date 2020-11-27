@@ -1,31 +1,25 @@
-package utils
+package file
 
 import (
+	"image-server/src/utils"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 )
 
-type File struct {
-	Name     string
-	Abs      string
-	IsDir    bool
-	Children []File
-}
-
-func getChildren(fileTreeRoot *File) error {
-	if fileTreeRoot.IsDir {
+func (f *File) getChildren() error {
+	if f.IsDir {
 		// 创建一个空切片
 		children := []File{}
 		// 遍历一层目录，给切片添加内容
-		err := ListDo(fileTreeRoot.Abs, func(path string, info os.FileInfo, err error) error {
+		err := utils.ListDo(f.Abs, func(path string, info os.FileInfo, err error) error {
 			// 跳过小数点开头的文件和目录
 			if strings.Contains(path, "/.") || path[0] == '.' {
 				return err
 			}
 			// 跳过不是图片文件的文件
-			if !info.IsDir() && !IsPicture(info.Name()) {
+			if !info.IsDir() && !utils.IsPicture(info.Name()) {
 				return err
 			}
 			children = append(children, File{
@@ -37,11 +31,12 @@ func getChildren(fileTreeRoot *File) error {
 			return err
 		})
 		// 把切片赋到Children上，如果是空目录，则赋一个空切片
-		fileTreeRoot.Children = children
-		if len(fileTreeRoot.Children) != 0 {
+		f.Children = children
+		if len(f.Children) != 0 {
 			// 对目录下未处理的子目录进行递归操作
-			for i := 0; i < len(fileTreeRoot.Children); i++ {
-				err = getChildren(&fileTreeRoot.Children[i])
+			for i := 0; i < len(f.Children); i++ {
+				//err = getChildren(&f.Children[i])
+				err = f.Children[i].getChildren()
 			}
 		}
 		return err
@@ -50,7 +45,7 @@ func getChildren(fileTreeRoot *File) error {
 }
 
 func (f *File) Init() error {
-	return getChildren(f)
+	return f.getChildren()
 }
 
 func (f File) isEmptyDir() bool {
