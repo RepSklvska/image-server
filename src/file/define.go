@@ -29,14 +29,17 @@ func (f *File) cd(name string) (*File, error) {
 	return nil, errors.New("No such directory")
 }
 
-// 列出Children的Name
-func (f *File) ls() []string {
+// 列出Children中的Name
+// 传入true则返回目录的Name切片，传入false则返回文件的Name切片
+func (f *File) ls(isDir bool) []string {
 	list := []string{}
 	if !f.IsDir {
 		return list
 	}
 	for _, v := range f.Children {
-		list = append(list, v.Name)
+		if v.IsDir == isDir {
+			list = append(list, v.Name)
+		}
 	}
 	return list
 }
