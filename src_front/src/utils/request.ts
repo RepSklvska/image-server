@@ -3,8 +3,8 @@ import {request, RequestConfig} from "umi";
 
 const BACKEND_URL = mock ?
 	"" :
-	backend[backend.length - 1] !== "/" ?
-		backend + "/" :
+	backend[backend.length - 1] === "/" ?
+		backend.slice(0, backend.length - 1) :
 		backend;
 
 const Request = (route: string, options?: RequestConfig) => {
