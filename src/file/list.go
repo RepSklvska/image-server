@@ -1,6 +1,8 @@
 package file
 
-import "strings"
+import (
+	"strings"
+)
 
 // 传入路径，"/"表示根节点，父子之间用"/"分隔
 func (f *File) listDir(path string, isDir bool) ([]string, error) {
@@ -24,7 +26,7 @@ func (f *File) listDir(path string, isDir bool) ([]string, error) {
 			return nil, err
 		}
 	}
-	return f.ls(isDir), err
+	return pwd.ls(isDir), err
 }
 
 // 列出Children中的目录名切片
