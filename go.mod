@@ -6,4 +6,6 @@ require (
 	github.com/elazarl/go-bindata-assetfs v1.0.1
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.6.3
+	github.com/tidwall/gjson v1.6.3
+	github.com/tidwall/match v1.0.2 // indirect
 )
