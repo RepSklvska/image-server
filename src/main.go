@@ -31,7 +31,7 @@ func main() {
 	}
 
 	_ = server.Init(
-		response.HandlerWithFileTree(&fileTree),
+		response.Handler(&fileTree),
 		//response.HandleRequest,
 	).Run(":" + strconv.Itoa(*p))
 }
