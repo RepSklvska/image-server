@@ -1,17 +1,17 @@
 import {Effect, Reducer, Subscription} from "umi"
 import {AnyAction} from "redux";
-import {ListDirRequest} from "@/services/allRequests";
+import {IList, ListRequest} from "@/services/allRequests";
 
-interface IFile {
+type IFiles = {
 	name: string,
 	isDirectory: boolean,
-	children: IFile[],
-}
+}[]
 
 export interface IDirectoryState {
-	files: IFile
+	files: IFiles,
+	pwd: string,
 
-	[index: string]: any
+	[index: string]: any,
 }
 
 export interface IDirectoryModel {
@@ -31,26 +31,47 @@ export interface IDirectoryModel {
 const DirectoryModel: IDirectoryModel = {
 	namespace: "directory",
 	state: {
-		files: {
-			name: "root",
-			isDirectory: true,
-			children: []
-		}
+		files: [],
+		pwd: "/"
 	},
 	effects: {
-		* test({payload}, {put, select, call}) {
-			const result = yield call(ListDirRequest,)
-			console.log(result)
+		* getDirList({}, {put, select, call}) {
+			const state: IDirectoryState = yield select((state: any) => state.directory)
+			const location = state.pwd
+			const result: IList = yield call(ListRequest, location)
+			console.log("Dir List:", result)
+			state.files = []
+			result.dirs.map(dir => state.files.push({name: dir, isDirectory: true}))
+			result.files.map(file => state.files.push({name: file, isDirectory: false}))
+			yield put({type: "save", newState: state})
 		},
+		* changeDir({to}, {put, select, take}) {
+			const state: IDirectoryState = yield select((state: any) => state.directory)
+			console.log(to, to === "..")
+			if (to === "..") {
+				state.pwd = state.pwd.substring(0, state.pwd.lastIndexOf("/"))
+				if (state.pwd === "") {
+					state.pwd = "/"
+				}
+			} else {
+				state.pwd === "/" ?
+					state.pwd = "/" + to :
+					state.pwd += "/" + to
+			}
+			yield put({type: "save", newState: state})
+			console.log("1")
+			yield put({type: "getDirList"})
+			console.log("2")
+		}
 	},
 	reducers: {
 		save(state: any, action: AnyAction) {
-			return {...action.data}
+			return {...action.newState}
 		}
 	},
 	subscriptions: {
 		init({dispatch}) {
-			dispatch({type: "test"})
+			dispatch({type: "getDirList"})
 		},
 	},
 }
