@@ -13,7 +13,7 @@ func (f *File) getChildren() error {
 		// 创建一个空切片
 		children := []File{}
 		// 遍历一层目录，给切片添加内容
-		err := utils.ListDo(f.Abs, func(path string, info os.FileInfo, err error) error {
+		err := utils.ListDir(f.Abs, func(path string, info os.FileInfo, err error) error {
 			// 跳过小数点开头的文件和目录
 			if strings.Contains(path, "/.") || path[0] == '.' {
 				return err
@@ -35,7 +35,6 @@ func (f *File) getChildren() error {
 		if len(f.Children) != 0 {
 			// 对目录下未处理的子目录进行递归操作
 			for i := 0; i < len(f.Children); i++ {
-				//err = getChildren(&f.Children[i])
 				err = f.Children[i].getChildren()
 			}
 		}
