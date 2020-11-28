@@ -1,11 +1,35 @@
 import Request from "@/utils/request";
 
-const ListDirRequest = async () => {
-	const result = await Request("/", {
-		data: {query: "directory", }
-	})
-	console.log(result)
-	return result
+export interface IList {
+	dirs: string[],
+	files: string[]
 }
 
-export {ListDirRequest}
+const ListRequest = async (path: string): Promise<IList> => {
+	const data = {
+		query: {
+			type: "list",
+			path: path,
+		},
+	}
+	const result = await Request("/", {data: data})
+	// console.log(result)
+	return result as IList
+}
+
+interface IPicture {
+}
+
+const PictureRequest = async (path: string): Promise<IPicture> => {
+	const data = {
+		query: {
+			type: "getpic",
+			path: path,
+		},
+	}
+	const result = await Request("/", {data: data})
+
+	return result as IPicture
+}
+
+export {ListRequest}
