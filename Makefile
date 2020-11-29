@@ -24,3 +24,6 @@ test1:
 test2:
 	cd ./src_front && ~/go/bin/go-bindata-assetfs -o=../src/assets/asset.go -pkg=assets dist/...
 	go run ./src/main.go -d /home/aa/Pictures
+
+front-debug:
+	cd ./src_front && npm run start
