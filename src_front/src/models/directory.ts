@@ -1,6 +1,6 @@
 import {Effect, Reducer, Subscription} from "umi"
 import {AnyAction} from "redux";
-import {IList, ListRequest} from "@/services/allRequests";
+import {IList, ListRequest, PictureRequest} from "@/services/allRequests";
 
 type IFiles = {
 	name: string,
@@ -9,6 +9,7 @@ type IFiles = {
 
 export interface IDirectoryState {
 	files: IFiles,
+	pictures: string[],
 	pwd: string,
 
 	[index: string]: any,
@@ -32,6 +33,7 @@ const DirectoryModel: IDirectoryModel = {
 	namespace: "directory",
 	state: {
 		files: [],
+		pictures: [],
 		pwd: "/"
 	},
 	effects: {
@@ -39,13 +41,16 @@ const DirectoryModel: IDirectoryModel = {
 			const state: IDirectoryState = yield select((state: any) => state.directory)
 			const location = state.pwd
 			const result: IList = yield call(ListRequest, location)
-			console.log("Dir List:", result)
 			state.files = []
+			state.pictures = []
 			result.dirs.map(dir => state.files.push({name: dir, isDirectory: true}))
-			result.files.map(file => state.files.push({name: file, isDirectory: false}))
+			result.files.map(file => {
+				state.files.push({name: file, isDirectory: false})
+				state.pictures.push(file)
+			})
 			yield put({type: "save", newState: state})
 		},
-		* changeDir({to}, {put, select, take}) {
+		* changeDir({to}, {put, select}) {
 			const state: IDirectoryState = yield select((state: any) => state.directory)
 			console.log(to, to === "..")
 			if (to === "..") {
@@ -62,7 +67,16 @@ const DirectoryModel: IDirectoryModel = {
 			console.log("1")
 			yield put({type: "getDirList"})
 			console.log("2")
-		}
+		},
+		* getPic({name}, {put, select, call}) {
+			const pwd = (yield select((state: any) => state.directory.pwd)) as string
+			const path = pwd === "/" ? pwd + name : pwd + "/" + name
+			const picture = yield call(PictureRequest, path)
+			console.log("Response picture:", picture)
+			console.log("Type of response:", typeof picture)
+			console.log("Length of response:", picture.length)
+			return "got pic"
+		},
 	},
 	reducers: {
 		save(state: any, action: AnyAction) {
