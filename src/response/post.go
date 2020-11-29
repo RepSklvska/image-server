@@ -54,15 +54,11 @@ func Handler(file *file.File) gin.HandlerFunc {
 
 			c.JSON(http.StatusOK, res)
 		case "getpic":
-		}
-		//c.JSON(http.StatusOK, gin.H{
-		//	"message1": "privet",
-		//})
-	}
-}
+			path := req.Get("query.path").Str
+			fmt.Println("Requested path:", path)
+			abs := file.ReadPicture(path)
 
-func HandleRequest(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"message2": "hello",
-	})
+			c.File(abs)
+		}
+	}
 }
