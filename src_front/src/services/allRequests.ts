@@ -5,7 +5,7 @@ export interface IList {
 	files: string[]
 }
 
-const ListRequest = async (path: string): Promise<IList> => {
+export const ListRequest = async (path: string): Promise<IList> => {
 	const data = {
 		query: {
 			type: "list",
@@ -17,10 +17,10 @@ const ListRequest = async (path: string): Promise<IList> => {
 	return result as IList
 }
 
-interface IPicture {
+export interface IPicture {
 }
 
-const PictureRequest = async (path: string): Promise<IPicture> => {
+export const PictureRequest = async (path: string) => {
 	const data = {
 		query: {
 			type: "getpic",
@@ -29,7 +29,5 @@ const PictureRequest = async (path: string): Promise<IPicture> => {
 	}
 	const result = await Request("/", {data: data})
 
-	return result as IPicture
+	return result
 }
-
-export {ListRequest}
