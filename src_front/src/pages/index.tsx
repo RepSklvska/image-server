@@ -12,8 +12,11 @@ export default () => {
 			return () => {
 				dispatch({type: "directory/changeDir", to: name})
 			}
-		}
-		return () => {
+		} else {
+			return async () => {
+				const x = await dispatch({type: "directory/getPic", name: name})
+				console.log(x)
+			}
 		}
 	}
 	return (
@@ -30,6 +33,12 @@ export default () => {
 					</List.Item>
 				)}
 			</List>
+			<div style={{
+				width: "100%", height: "100%", background: "rgba(0,0,0,.75)",
+				position: "absolute", zIndex: 114514, top: 0, left: 0
+			}}>
+				EXCITED
+			</div>
 		</Layout>
 	);
 };
