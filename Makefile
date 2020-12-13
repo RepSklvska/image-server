@@ -1,7 +1,8 @@
 APP=imageServer
 
 
-# build需要安装依赖
+# build需要安装依赖，需要/bin目录中有go-bindata
+# opensuse可以用zypper安装：zypper in golang-github-jteeuwen-go-bindata
 # go get github.com/go-bindata/go-bindata/...
 # go get github.com/elazarl/go-bindata-assetfs/...
 build:
