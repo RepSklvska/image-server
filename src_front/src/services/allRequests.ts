@@ -27,7 +27,7 @@ export const PictureRequest = async (path: string) => {
 			path: path,
 		},
 	}
-	const result = await Request("/", {data: data})
+	const result = await Request("/", {data: data, responseType: "blob"})
 
 	return result
 }
