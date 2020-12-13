@@ -1,8 +1,9 @@
 import React from "react";
 import Layout from "@/layouts/index"
-import {List} from "antd-mobile";
-import {FolderOutlined, PictureOutlined, RollbackOutlined} from "@ant-design/icons";
+import {Flex, List} from "antd-mobile";
+import {CloseCircleTwoTone, FolderOutlined, PictureOutlined, RollbackOutlined} from "@ant-design/icons";
 import {IDirectoryState, useDispatch, useSelector} from 'umi'
+import {PictureViewer} from "@/components";
 
 export default () => {
 	const dispatch = useDispatch()
@@ -14,7 +15,7 @@ export default () => {
 			}
 		} else {
 			return async () => {
-				const x = await dispatch({type: "directory/getPic", name: name})
+				const x = await dispatch({type: "picture/handleClickPic", name: name})
 				console.log(x)
 			}
 		}
@@ -33,12 +34,7 @@ export default () => {
 					</List.Item>
 				)}
 			</List>
-			<div style={{
-				width: "100%", height: "100%", background: "rgba(0,0,0,.75)",
-				position: "absolute", zIndex: 114514, top: 0, left: 0
-			}}>
-				EXCITED
-			</div>
+			<PictureViewer/>
 		</Layout>
 	);
 };
