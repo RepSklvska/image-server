@@ -68,15 +68,6 @@ const DirectoryModel: IDirectoryModel = {
 			yield put({type: "getDirList"})
 			console.log("2")
 		},
-		* getPic({name}, {put, select, call}) {
-			const pwd = (yield select((state: any) => state.directory.pwd)) as string
-			const path = pwd === "/" ? pwd + name : pwd + "/" + name
-			const picture = yield call(PictureRequest, path)
-			console.log("Response picture:", picture)
-			console.log("Type of response:", typeof picture)
-			console.log("Length of response:", picture.length)
-			return "got pic"
-		},
 	},
 	reducers: {
 		save(state: any, action: AnyAction) {
