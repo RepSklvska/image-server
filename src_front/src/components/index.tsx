@@ -1,14 +1,10 @@
 import React, {useState} from "react";
-import {CloseCircleTwoTone} from "@ant-design/icons";
+import {CloseCircleTwoTone, LeftCircleTwoTone, RightCircleTwoTone} from "@ant-design/icons";
 import {Flex} from "antd-mobile";
-import {useSelector} from "@@/plugin-dva/exports";
-import {useDispatch} from "umi";
+import {useDispatch, useSelector} from "umi";
 
-interface ICloseButton {
-	onClick: () => void
-}
-
-const CloseButton: React.FC<ICloseButton> = ({onClick}) => {
+const CloseButton: React.FC = () => {
+	const dispatch = useDispatch()
 	return (
 		<CloseCircleTwoTone
 			style={{
@@ -19,7 +15,46 @@ const CloseButton: React.FC<ICloseButton> = ({onClick}) => {
 				right: 12,
 				opacity: "75%",
 				cursor: "pointer"
-			}} twoToneColor="#808080" onClick={onClick}
+			}} twoToneColor="#808080"
+			onClick={() => dispatch({type: "picture/handleCloseViewer"})}
+		/>
+	)
+}
+
+const LeftButton: React.FC = () => {
+	const dispatch = useDispatch()
+	return (
+		<LeftCircleTwoTone
+			style={{
+				position: "absolute",
+				fontSize: "400%",
+				zIndex: 15,
+				bottom: 12,
+				left: 12,
+				opacity: "75%",
+				cursor: "pointer"
+			}} twoToneColor="#808080"
+			onClick={() => dispatch({type: "picture/handleClickPrev"})}
+			hidden={useSelector((state: any) => state.picture.picture0 === "")}
+		/>
+	)
+}
+
+const RightButton: React.FC = () => {
+	const dispatch = useDispatch()
+	return (
+		<RightCircleTwoTone
+			style={{
+				position: "absolute",
+				fontSize: "400%",
+				zIndex: 15,
+				bottom: 12,
+				right: 12,
+				opacity: "75%",
+				cursor: "pointer"
+			}} twoToneColor="#808080"
+			onClick={() => dispatch({type: "picture/handleClickNext"})}
+			hidden={useSelector((state: any) => state.picture.picture2 === "")}
 		/>
 	)
 }
@@ -36,11 +71,13 @@ const BlobToSrc = async (blob: Blob) => {
 
 		return text
 	} catch (e) {
-		console.log(e)
+		if (e.toString() !== "TypeError: blob.arrayBuffer is not a function") {
+			console.log(e)
+		}
 	}
 }
 
-interface IPictureViewer {
+interface IPictureViewerProps {
 	pictures?: {
 		prev?: string,
 		curr: string,
@@ -48,7 +85,7 @@ interface IPictureViewer {
 	}
 }
 
-const PictureViewer: React.FC<IPictureViewer> = ({pictures}) => {
+const PictureViewer: React.FC<IPictureViewerProps> = ({pictures}) => {
 	const hidden: boolean = useSelector((state: any) => !state.picture.showPic)
 	const pictureBlob: Blob = useSelector((state: any) => state.picture.picture1)
 	pictureBlob
@@ -64,10 +101,12 @@ const PictureViewer: React.FC<IPictureViewer> = ({pictures}) => {
 			width: "100%", height: "100%", background: "rgba(0,0,0,.75)",
 			position: "fixed", zIndex: 10, top: 0, left: 0
 		}} hidden={hidden}>
-			<CloseButton onClick={() => dispatch({type: "picture/handleCloseViewer"})}/>
+			<CloseButton/>
+			<LeftButton/>
+			<RightButton/>
 			<Flex direction="column" justify="center" style={{height: "100%"}}>
 				<Flex justify="center">
-					<img alt="" src={imgsrc} style={{maxHeight:"100vh",maxWidth:"100vw"}}/>
+					<img alt="" src={imgsrc} style={{maxHeight: "100vh", maxWidth: "100vw"}}/>
 				</Flex>
 			</Flex>
 		</div>
