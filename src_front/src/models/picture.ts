@@ -7,7 +7,7 @@ export interface IPictureState {
 	picture1: Blob | {},
 	picture2: Blob | {},
 	showPic: boolean,
-	current: number
+	current: number,
 }
 
 export interface IPictureModel {
@@ -83,6 +83,9 @@ const PictureModel: IPictureModel = {
 			if (indexPic1 !== picList.length - 1) {
 				yield put({type: "getPic", name: picList[indexPic1 + 1], to: "picture2"})
 			}
+			// yield take("getPic/@@end")
+			// yield take("getPic/@@end")
+			// console.log(yield select((state:any)=>state.picture))
 		},
 		// 当用户点击查看上一张图片
 		* handleClickPrev({}, {put, select, take}) {
