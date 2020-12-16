@@ -6,7 +6,7 @@
 		"name": "image-server-frontend",
 		"version": "0.0.4",
 		"start": "umi dev",
-		"build": "umi build && cp dist/* ../src/htdocs -r",
+		"build": "umi build && mkdir ../src/htdocs -p && cp dist/* ../src/htdocs -r",
 		"postinstall": "umi generate tmp",
 		"test": "umi-test",
 		"test:coverage": "umi-test --coverage"
