@@ -50,6 +50,12 @@ const PictureModel: IPictureModel = {
 			}
 			return picture
 		},
+		//
+		* truncatePic({to}, {put, select}) {
+			const pictureState: IPictureState = (yield select((state: any) => state.picture)) as IPictureState
+			pictureState[to as "picture0" | "picture1" | "picture2"] = ""
+			yield put({type: "save", newState: pictureState})
+		},
 		* setVisible({index}, {put, select}) {
 			const pictureState: IPictureState = (yield select((state: any) => state.picture)) as IPictureState
 			pictureState.showPic = true
@@ -100,6 +106,9 @@ const PictureModel: IPictureModel = {
 				const picList: string[] = (yield select((state: any) => state.directory.pictures)) as string[]
 				yield put({type: "getPic", name: picList[currentIndex - 1], to: "picture0"})
 				yield take("getPic/@@end")
+			} else {
+				yield put({type: "truncatePic", to: "picture0"})
+				yield take("truncatePic/@@end")
 			}
 		},
 		// 当用户点击查看下一张图片
@@ -115,6 +124,9 @@ const PictureModel: IPictureModel = {
 			if (currentIndex !== picList.length - 1) {
 				yield put({type: "getPic", name: picList[currentIndex + 1], to: "picture2"})
 				yield take("getPic/@@end")
+			} else {
+				yield put({type: "truncatePic", to: "picture2"})
+				yield take("truncatePic/@@end")
 			}
 		},
 		// 当用户点击右上角的X，退出查看图片的界面
