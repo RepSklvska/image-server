@@ -17,9 +17,6 @@ export const ListRequest = async (path: string): Promise<IList> => {
 	return result as IList
 }
 
-export interface IPicture {
-}
-
 export const PictureRequest = async (path: string) => {
 	const data = {
 		query: {
@@ -27,7 +24,7 @@ export const PictureRequest = async (path: string) => {
 			path: path,
 		},
 	}
-	const result = await Request("/", {data: data, responseType: "blob"})
+	const result: Blob = await Request("/", {data: data, responseType: "blob"})
 
 	return result
 }
